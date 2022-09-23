@@ -27,7 +27,7 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public RectTransform roomListContainer;
     public GameObject roomButtonPrefab;
 
-    private List<GameObject> roomButton = new List<GameObject>();
+    private List<GameObject> roomButtons = new List<GameObject>();
     private List<RoomInfo> roomList = new List<RoomInfo>();
 
     void Start()
