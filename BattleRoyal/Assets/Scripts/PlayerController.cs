@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviourPun
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
+    [PunRPC]
     public void TakeDamage(int attackerId, int damage)
     {
         if(dead)
