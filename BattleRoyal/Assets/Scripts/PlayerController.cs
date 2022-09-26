@@ -8,14 +8,23 @@ public class PlayerController : MonoBehaviourPun
 {
     [Header("Info")]
     public int id;
+    private int curAttackerId;
 
     [Header("Stats")]
     public float moveSpeed;
     public float jumpForce;
+    public int curHp;
+    public int maxHp;
+    public int kills;
+    public bool dead;
+
+    private bool flashingDamage;
     
     [Header("Components")]
     public Rigidbody rig;
     public Player photonPlayer;
+    public MeshRenderer mr;
+    public PlayerWeapon weapon;
 
     [PunRPC]
     public void Initialize( Player player)
@@ -35,10 +44,18 @@ public class PlayerController : MonoBehaviourPun
 
     void Update()
     {
+        // if this isn't our local player or we're dead - returns
+        if(!photonView.IsMine || dead)
+            return;
+
         Move();
 
         if(Input.GetKeyDown(KeyCode.Space))
             TryJump();
+
+        if(Input.GetMouseButtonDown(0))
+            weapon.TryShoot();
+
     }
 
     void Move()
@@ -63,5 +80,51 @@ public class PlayerController : MonoBehaviourPun
         // shoot the raycast
         if(Physics.Raycast(ray, 1.5f))
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    public void TakeDamage(int attackerId, int damage)
+    {
+        if(dead)
+            return;
+
+        curHp -= damage;
+        curAttackerId = attackerId;
+
+        // flash the player red
+        photonView.RPC("DamageFlash", RpcTarget.Others);
+
+        // update health bar UI
+
+        // die sif no health left
+        if(curHp <= 0)
+            photonView.RPC("Die", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void DamageFlash()
+    {
+        if(flashingDamage)
+            return;
+
+        StartCoroutine(DamageFlashCoRoutine());
+
+        IEnumerator DamageFlashCoRoutine()
+        {
+            flashingDamage = true;
+
+            Color defaultColor = mr.material.color;
+            mr.material.color = Color.red;
+
+            yield return new WaitForSeconds(0.05f);
+
+            mr.material.color = defaultColor;
+            flashingDamage = false;
+        }
+    }
+
+    [PunRPC]
+    void Die()
+    {
+
     }
 }
