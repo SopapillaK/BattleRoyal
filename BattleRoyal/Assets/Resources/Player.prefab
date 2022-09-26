@@ -462,7 +462,7 @@ MonoBehaviour:
   maxAmmo: 50
   bulletSpeed: 20
   shootRate: 0.2
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 3103452738869010082, guid: fc010200e8b64e9428cc965e25a12c03, type: 3}
   bulletSpawnPos: {fileID: 8420763571822872685}
 --- !u!114 &1072789932971643008
 MonoBehaviour:
@@ -527,7 +527,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8916091103743623600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.002, y: 0.714, z: 0.234}
+  m_LocalPosition: {x: -0.002, y: 0.714, z: 0.252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
