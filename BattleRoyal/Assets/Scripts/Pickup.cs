@@ -9,12 +9,12 @@ public enum PickupType
     Ammo
 }
 
-public class Pickup : MonoBehaviour
+public class Pickup : MonoBehaviourPun
 {
     public PickupType type;
     public int value;
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(!PhotonNetwork.IsMasterClient)
             return;
